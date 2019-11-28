@@ -19,14 +19,6 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS assessments (
                         REFERENCES users (email) 
                 )""")
 
-cursor.execute("""CREATE TABLE IF NOT EXISTS session (
-                    session_id INTEGER PRIMARY KEY,
-                    startTime TEXT NOT NULL,
-                    endTime TEXT NOT NULL,
-                    assessment_id TEXT NOT NULL,
-                    FOREIGN KEY (assessment_id)
-                        REFERENCES assessments (assessment_id)
-                )""")
 cursor.execute("""CREATE TABLE IF NOT EXISTS questions (
                     question_id INTEGER PRIMARY KEY,
                     questionText TEXT NOT NULL,
