@@ -8,6 +8,6 @@ def insertAsssessment(asst):
                     (asst.email, asst.assessment_key))#Insert into db    
     conn.commit()
     cursor.execute("SELECT assessment_id FROM assessments WHERE assessment_key = ?",(asst.assessment_key,)) #Get asst id from DB
-    asst_id = cursor.fetchone()
+    asst_id = int(cursor.fetchone()[0])
     conn.close()
     return asst_id

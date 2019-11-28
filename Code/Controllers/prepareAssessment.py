@@ -7,5 +7,4 @@ def prepareAssessment(requestData):
     createUser.insertUser(user) #Create user in the db
     asst = Assessment(request.json['email'])#Create Assessment with user email and key 
     asst_id = createAssessment.insertAsssessment(asst)
-    print(asst_id)
     #Create Session with assessment key. Get current dt and set end time to +1h
