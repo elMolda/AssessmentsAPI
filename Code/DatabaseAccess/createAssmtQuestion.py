@@ -10,7 +10,5 @@ def createAsstXQues(asst_id):
                     (assessment_id, question_id) VALUES (?, ?)""",
                     (asst_id, int(q[0])))#Insert into db
     conn.commit()
-    cursor.execute("SELECT * FROM assmntXquestns")
-    print(cursor.fetchall())
     conn.close()
     return asst_id

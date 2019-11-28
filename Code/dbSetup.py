@@ -14,6 +14,9 @@ cursor.execute("""
 cursor.execute("""CREATE TABLE IF NOT EXISTS assessments (
                     assessment_id INTEGER PRIMARY KEY,
                     assessment_key TEXT UNIQUE,
+                    startTime TEXT NOT NULL,
+                    deadlineTime TEXT NOT NULL,
+                    endTime TEXT,
                     email TEXT NOT NULL,
                     FOREIGN KEY (email)
                         REFERENCES users (email) 
