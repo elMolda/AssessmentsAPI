@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, make_response #Flask modules used
-from Controllers import prepareAssessment #Files from Controllers package
+from Controllers import prepareAssessment, showQuestion #Files from Controllers package
 from Entities.Assessment import Assessment #Files from Entities package
 from Utils import checkEmail #Files from Utils package
 
@@ -9,7 +9,7 @@ app = Flask(__name__) #Declare server
 def ping():
     return jsonify({"message": 'Pong'})
 
-@app.route('/test', methods = ['GET', 'POST']) #Test route. Get only for info.
+@app.route('/test', methods = ['GET', 'POST']) #Test route. Get only for info. Post register and create asssesment
 def manageTestEndpoint(): #Define response according to request method type.
     response = None #Empty response
     if request.method == 'GET': #Info about endpoint
@@ -21,5 +21,17 @@ def manageTestEndpoint(): #Define response according to request method type.
         else:
             response = make_response(jsonify({"Message":"Not valid Email"}),400) #Not valid email. Inform bad request
     return response #Return request.
+
+@app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['GET']) #Get all the questions for current assessment
+def getAsstQuestion(assessment_key,question_n):
+    response = None
+    if request.method == 'GET':
+        question = showQuestion.showQuestion(assessment_key,question_n)
+        if question != None:
+            response = make_response(jsonify({"Question":question.qstnToJson()}),200)
+        else:
+            response = make_response(jsonify({"Message":"No Assessment found"}),404)
+    return response
+
 if __name__ == '__main__': 
     app.run(debug=True, port=5000)
