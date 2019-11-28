@@ -5,11 +5,18 @@ from Entities.User import User
 from Entities.Assessment import Assessment
 
 def prepareAssessment(requestData):
-    user = User(request.json['email'], request.json['names'], request.json['lastnames']) #Create user object
-    createUser.insertUser(user) #Create user in the db
-    startTime = datetime.now()
-    deadlineTime = startTime + timedelta(hours=1)
-    asst = Assessment(request.json['email'], startTime, deadlineTime)#Create Assessment with user email and key 
-    asst_id = createAssessment.insertAsssessment(asst)
-    createAssmtQuestion.createAsstXQues(asst_id)#Insert into asstXQue with asst_id
+    #Create user object
+    user = User(request.json['email'], request.json['names'], request.json['lastnames']) 
+    #Store user in the db. Won't be created if already exists
+    createUser.insertUser(user) 
+    #Create assessment object
+    startTime = datetime.now() #Assemnt starts now
+    deadlineTime = startTime + timedelta(hours=1) #Assemnt deadline is 1 hour
+    #Create Assessment object
+    asst = Assessment(request.json['email'], startTime, deadlineTime)
+    #Store Assessment in db.
+    asst_id = createAssessment.insertAsssessment(asst)#Get Assessment id to prepare questions
+    #Assign questions to created Assemnt
+    createAssmtQuestion.createAsstXQues(asst_id)
+    #Return Assemnt object to server response
     return asst

@@ -3,7 +3,7 @@ import json
 class Assessment:
     def __init__(self, email, startTime, deadlineTime):
         self.email = email
-        self.assessment_key = str(uuid.uuid4())
+        self.assessment_key = str(uuid.uuid4()) #Create unique key
         self.startTime = startTime
         self.deadlineTime = deadlineTime
     
