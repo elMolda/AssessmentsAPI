@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from flask import request
-from DatabaseAccess import createUser, createAssessment, updateAssessmentQuestion, createSession
+from DatabaseAccess import createUser, createAssessment, createAssmtQuestion, createSession
 from Entities.User import User
 from Entities.Assessment import Assessment
 from Entities.Session import Session
@@ -9,7 +9,7 @@ def prepareAssessment(requestData):
     createUser.insertUser(user) #Create user in the db
     asst = Assessment(request.json['email'])#Create Assessment with user email and key 
     asst_id = createAssessment.insertAsssessment(asst)
-    updateAssessmentQuestion.createAsstXQues(asst_id)#Insert into asstXQue with asst_id
+    createAssmtQuestion.createAsstXQues(asst_id)#Insert into asstXQue with asst_id
     startTime = datetime.now()
     endTime = startTime + timedelta(hours=1)
     session = Session(startTime, endTime, asst_id)
