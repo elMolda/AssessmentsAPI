@@ -14,19 +14,14 @@ cursor.execute("""
 cursor.execute("""CREATE TABLE IF NOT EXISTS assessments (
                     assessment_id INTEGER PRIMARY KEY,
                     assessment_key TEXT UNIQUE,
+                    startTime TEXT NOT NULL,
+                    deadlineTime TEXT NOT NULL,
+                    endTime TEXT,
                     email TEXT NOT NULL,
                     FOREIGN KEY (email)
                         REFERENCES users (email) 
                 )""")
 
-cursor.execute("""CREATE TABLE IF NOT EXISTS session (
-                    session_id INTEGER PRIMARY KEY,
-                    startTime TEXT NOT NULL,
-                    endTime TEXT NOT NULL,
-                    assessment_id TEXT NOT NULL,
-                    FOREIGN KEY (assessment_id)
-                        REFERENCES assessments (assessment_id)
-                )""")
 cursor.execute("""CREATE TABLE IF NOT EXISTS questions (
                     question_id INTEGER PRIMARY KEY,
                     questionText TEXT NOT NULL,
