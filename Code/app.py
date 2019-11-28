@@ -14,10 +14,6 @@ def manageTestEndpoint():
         response = jsonify({"message": """This is Test endpoint.Send POST request to this with user parameters to start assessment."""})
     if request.method == 'POST': #Create a new User if needed. Create new Assemnt and Session.
         prepareAssessment.prepareAssessment(request)
-        conn = sqlite3.connect("assessments.db") #Connect to DB
-        cursor = conn.cursor() #Declare Cursor
-        cursor.execute("SELECT * FROM users")
-        print(cursor.fetchall())
         response = jsonify({"Users":"success"})
     return response
 if __name__ == '__main__': 
