@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, make_response #Flask modules used
-from Controllers import prepareAssessment, showQuestion #Files from Controllers package
+from Controllers import prepareAssessment, showQuestion, answerClosedQuestion #Files from Controllers package
 from Entities.Assessment import Assessment #Files from Entities package
 from Utils import checkEmail #Files from Utils package
 
@@ -22,7 +22,7 @@ def manageTestEndpoint(): #Define response according to request method type.
             response = make_response(jsonify({"Message":"Not valid Email"}),400) #Not valid email. Inform bad request
     return response #Return request.
 
-@app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['GET']) #Get all the questions for current assessment
+@app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['GET', 'POST']) #Get all the questions for current assessment
 def getAsstQuestion(assessment_key,question_n): #Get question by number in corresponding assessment
     response = None #Empty response
     if request.method == 'GET': 
@@ -31,7 +31,11 @@ def getAsstQuestion(assessment_key,question_n): #Get question by number in corre
             response = make_response(jsonify({"Question":question.qstnToJson()}),200) #Return the found question
         else:
             response = make_response(jsonify({"Message":"Not found"}),404) #Question not found
+    if request.method == 'POST':
+        answerClosedQuestion.answerClosedQuestion(assessment_key,question_n,request.json['selectedAnswer'])
+        response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
     return response #Return response
+
 
 if __name__ == '__main__': 
     app.run(debug=True, port=5000)
