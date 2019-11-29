@@ -19,10 +19,10 @@ def getAsstQuestion(assessment_key,question_n):
                 (SELECT assessment_id
                 FROM assessments
                 WHERE assessment_key = ?))
-        """,(int(question_n),assessment_key))#Retrieve the question and validate that it exists in the given asssessment.
-    questionTuple = cursor.fetchone()
-    question = Question(questionTuple[0],questionTuple[1],questionTuple[2])
-    conn.close()
-    return question
+        """,(int(question_n),assessment_key)) #Retrieve the question and validate that it exists in the given asssessment.
+    questionTuple = cursor.fetchone() 
+    question = Question(questionTuple[0],questionTuple[1],questionTuple[2]) #Create question object
+    conn.close() #Close connection
+    return question #Return question object
     
     
