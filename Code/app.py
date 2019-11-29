@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, make_response #Flask modules used
-from Controllers import prepareAssessment, showQuestion, answerClosedQuestion #Files from Controllers package
+from Controllers import prepareAssessment, showQuestion, answerQuestion #Files from Controllers package
 from Entities.Assessment import Assessment #Files from Entities package
 from Utils import checkEmail #Files from Utils package
 
@@ -34,16 +34,12 @@ def getAsstQuestion(assessment_key,question_n): #Get question by number in corre
     return response #Return response
 
 @app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['POST']) #Answer a question
-def answerQuestion(assessment_key,question_n):
+def answerOneQuestion(assessment_key,question_n):
     response = None
     if request.method == 'POST':
         question_type = showQuestion.showQuestion(assessment_key,question_n).isOpen
-        if question_type == 0: #Question is closed
-            answerClosedQuestion.answerClosedQuestion(assessment_key,question_n,request.json['selectedAnswer'])
-            response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
-        elif question_type == 1: #Question is open
-            #answerOpenQuestion.answerOpenQuestion(assessment_key,question_n,request.json['answerBody'])
-            response = make_response(jsonify({"TODO": "todo"}), 200)
+        answerQuestion.answerQuestion(assessment_key,question_n,question_type,request)
+        response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
     return response
 
 
