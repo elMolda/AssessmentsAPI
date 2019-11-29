@@ -39,7 +39,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS assmntXquestns (
                     assessment_id INTEGER NOT NULL,
                     question_id INTEGER NOT NULL,
                     user_ans_closed INTEGER,
-                    user_ans_open TEXT
+                    user_ans_open TEXT,
+                    question_n INTEGER NOT NULL
                 )""")
 conn.commit() #Commit changes to DB
 
