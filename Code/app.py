@@ -23,15 +23,15 @@ def manageTestEndpoint(): #Define response according to request method type.
     return response #Return request.
 
 @app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['GET']) #Get all the questions for current assessment
-def getAsstQuestion(assessment_key,question_n):
-    response = None
-    if request.method == 'GET':
-        question = showQuestion.showQuestion(assessment_key,question_n)
+def getAsstQuestion(assessment_key,question_n): #Get question by number in corresponding assessment
+    response = None #Empty response
+    if request.method == 'GET': 
+        question = showQuestion.showQuestion(assessment_key,question_n) #Pass parameters of question
         if question != None:
-            response = make_response(jsonify({"Question":question.qstnToJson()}),200)
+            response = make_response(jsonify({"Question":question.qstnToJson()}),200) #Return the found question
         else:
-            response = make_response(jsonify({"Message":"No Assessment found"}),404)
-    return response
+            response = make_response(jsonify({"Message":"Not found"}),404) #Question not found
+    return response #Return response
 
 if __name__ == '__main__': 
     app.run(debug=True, port=5000)
