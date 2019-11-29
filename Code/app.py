@@ -22,7 +22,7 @@ def manageTestEndpoint(): #Define response according to request method type.
             response = make_response(jsonify({"Message":"Not valid Email"}),400) #Not valid email. Inform bad request
     return response #Return request.
 
-@app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['GET', 'POST']) #Get all the questions for current assessment
+@app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['GET']) #Get all the questions for current assessment
 def getAsstQuestion(assessment_key,question_n): #Get question by number in corresponding assessment
     response = None #Empty response
     if request.method == 'GET': 
@@ -31,10 +31,20 @@ def getAsstQuestion(assessment_key,question_n): #Get question by number in corre
             response = make_response(jsonify({"Question":question.qstnToJson()}),200) #Return the found question
         else:
             response = make_response(jsonify({"Message":"Not found"}),404) #Question not found
-    if request.method == 'POST':
-        answerClosedQuestion.answerClosedQuestion(assessment_key,question_n,request.json['selectedAnswer'])
-        response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
     return response #Return response
+
+@app.route('/test/<string:assessment_key>/questions/<int:question_n>', methods=['POST']) #Answer a question
+def answerQuestion(assessment_key,question_n):
+    response = None
+    if request.method == 'POST':
+        question_type = showQuestion.showQuestion(assessment_key,question_n).isOpen
+        if question_type == 0: #Question is closed
+            answerClosedQuestion.answerClosedQuestion(assessment_key,question_n,request.json['selectedAnswer'])
+            response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
+        elif question_type == 1: #Question is open
+            #answerOpenQuestion.answerOpenQuestion(assessment_key,question_n,request.json['answerBody'])
+            response = make_response(jsonify({"TODO": "todo"}), 200)
+    return response
 
 
 if __name__ == '__main__': 
