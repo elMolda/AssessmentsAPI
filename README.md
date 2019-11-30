@@ -1,0 +1,15 @@
+# AssessmentsAPI
+This API is for the C1 Backend challege.
+
+Set up and run the app:
+  1. Clone the repo.
+  2. Create a virtual environment with `python3 -m venv AssessmentsAPI/venv`
+  3. Activate virtual environment with `source AssessmentsAPI/venv/bin/activate`
+  4. If not in the project directory change to it with `cd AssessmentsAPI`
+  5. Install dependencies with `pip install -r requirements.txt`
+  6. Set up the database with `python dbSetup.py`
+  7. To finally run the app, do it with `python app.py`
+  8. Ready to Test! 
+  
+Go to the [AssessmentsAPI Wiki](https://github.com/elMolda/AssessmentsAPI/wiki) to see examples of test requests and the design of the API.
+  
