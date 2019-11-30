@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request, make_response #Flask modules used
-from Controllers import prepareAssessment, showQuestion, answerQuestion #Files from Controllers package
+from Controllers import prepareAssessment, showQuestion, answerQuestion, getAsstTimes #Files from Controllers package
 from Entities.Assessment import Assessment #Files from Entities package
-from Utils import checkEmail #Files from Utils package
-
+from Utils import checkEmail, checkDate #Files from Utils package
+import datetime
 app = Flask(__name__) #Declare server
 
 @app.route('/ping', methods = ['GET']) #Testing Route, for Server testing.
@@ -37,9 +37,14 @@ def getAsstQuestion(assessment_key,question_n): #Get question by number in corre
 def answerOneQuestion(assessment_key,question_n):
     response = None
     if request.method == 'POST':
-        question_type = showQuestion.showQuestion(assessment_key,question_n).isOpen
-        answerQuestion.answerQuestion(assessment_key,question_n,question_type,request)
-        response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
+        startTime, deadlineTime = getAsstTimes.getAsstTimes(assessment_key)
+        sentTime = datetime.datetime.now()
+        if checkDate.checkDate(sentTime, startTime, deadlineTime):
+            question_type = showQuestion.showQuestion(assessment_key,question_n).isOpen
+            answerQuestion.answerQuestion(assessment_key,question_n,question_type,request)
+            response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
+        else:
+            response = make_response(jsonify({"Out of Time": "FAILED"}), 401)
     return response
 
 

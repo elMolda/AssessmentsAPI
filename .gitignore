@@ -1,7 +1,6 @@
 Code/venv/
 Code/__pycache__/
 Code/.vscode/
-Code/assessments.db
 Code/Controllers/__pycache__/
 Code/DatabaseAccess/__pycache__/
 Code/Entities/__pycache__/
