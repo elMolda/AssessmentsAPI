@@ -5,9 +5,9 @@ Set up and run the app:
   1. Clone the repo.
   2. Create a virtual environment with `python3 -m venv AssessmentsAPI/venv`
   3. Activate virtual environment with `source AssessmentsAPI/venv/bin/activate`
-  4. If not in the project directory change to it with `cd AssessmentsAPI`
+  4. Go to Code directory of the project with `cd AssessmentsAPI/Code`
   5. Install dependencies with `pip install -r requirements.txt`
-  6. Set up the database with `python dbSetup.py`
+  6. Set up database with `python dbSetup.py`
   7. To finally run the app, do it with `python app.py`
   8. Ready to Test! 
   
