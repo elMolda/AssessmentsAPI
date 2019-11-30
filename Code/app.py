@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, request, make_response #Flask modules used
-from Controllers import prepareAssessment, showQuestion, answerQuestion, getAsstTimes #Files from Controllers package
+from Controllers import prepareAssessment, showQuestion, answerQuestion, getAsstTimes, getAllQuestions #Files from Controllers package
 from Entities.Assessment import Assessment #Files from Entities package
 from Utils import checkEmail, checkDate #Files from Utils package
 import datetime
+import json
 app = Flask(__name__) #Declare server
 
 @app.route('/ping', methods = ['GET']) #Testing Route, for Server testing.
@@ -47,6 +48,12 @@ def answerOneQuestion(assessment_key,question_n):
             response = make_response(jsonify({"Out of Time": "FAILED"}), 401)
     return response
 
-
+@app.route('/test/<string:assessment_key>/questions', methods = ['GET']) #List all the questions of assessment. Just for testing purposes
+def listAssessmentQuestions(assessment_key):
+    response = None
+    if request.method == 'GET':
+        questionsJson = getAllQuestions.getAllQuestions(assessment_key)
+        response = make_response(jsonify({"All questions": questionsJson}), 200)
+    return response    
 if __name__ == '__main__': 
     app.run(debug=True, port=5000)
