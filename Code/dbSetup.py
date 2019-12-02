@@ -29,7 +29,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS questions (
                 )""")
 cursor.execute("""CREATE TABLE IF NOT EXISTS answers (
                     answer_id INTEGER PRIMARY KEY,
-                    answerText TEXT,
+                    answerText BLOB,
                     isCorrect INTEGER NOT NULL,
                     question_id INTEGER NOT NULL,
                     FOREIGN KEY (question_id)
@@ -39,7 +39,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS assmntXquestns (
                     assessment_id INTEGER NOT NULL,
                     question_id INTEGER NOT NULL,
                     user_ans_closed INTEGER,
-                    user_ans_open TEXT,
+                    user_ans_open BLOB,
                     question_n INTEGER NOT NULL
                 )""")
 conn.commit() #Commit changes to DB
