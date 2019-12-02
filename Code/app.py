@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, request, make_response #Flask modules used
-from Controllers import prepareAssessment, showQuestion, answerQuestion, getAsstTimes, getAllQuestions #Files from Controllers package
+from flask import Flask, jsonify, request, make_response, redirect #Flask modules used
+from Controllers import prepareAssessment, showQuestion, answerQuestion, getAsstTimes, getAllQuestions, answerLastQuestion #Files from Controllers package
 from Entities.Assessment import Assessment #Files from Entities package
 from Utils import checkEmail, checkDate #Files from Utils package
 import datetime
@@ -42,8 +42,12 @@ def answerOneQuestion(assessment_key,question_n):
         sentTime = datetime.datetime.now()
         if checkDate.checkDate(sentTime, startTime, deadlineTime):
             question_type = showQuestion.showQuestion(assessment_key,question_n).isOpen
-            answerQuestion.answerQuestion(assessment_key,question_n,question_type,request)
-            response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
+            if question_n == 6:#Is last question
+                asst = answerLastQuestion.answerLastQuestion(assessment_key,question_type,request,sentTime)
+                response = make_response(jsonify({"Assessment finished":asst.asstToJson()}),200)
+            else:
+                answerQuestion.answerQuestion(assessment_key,question_n,question_type,request)
+                response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
         else:
             response = make_response(jsonify({"Out of Time": "FAILED"}), 401)
     return response
@@ -55,5 +59,6 @@ def listAssessmentQuestions(assessment_key):
         questionsJson = getAllQuestions.getAllQuestions(assessment_key)
         response = make_response(jsonify({"All questions": questionsJson}), 200)
     return response    
+
 if __name__ == '__main__': 
     app.run(debug=True, port=5000)
