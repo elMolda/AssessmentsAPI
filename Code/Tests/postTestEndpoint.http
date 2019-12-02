@@ -2,7 +2,7 @@ POST http://localhost:5000/test
 Content-Type: application/json
 
 {
-    "names": "David",
-    "lastnames": "Molano",
-    "email": "david97@gmail.com"
+    "names": "NAME OF TESTUSER",
+    "lastnames": "LAST NAME OF TESTUSER",
+    "email": "EMAIL OF TESTUSER"
 }
