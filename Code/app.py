@@ -38,18 +38,18 @@ def getAsstQuestion(assessment_key,question_n): #Get question by number in corre
 def answerOneQuestion(assessment_key,question_n):
     response = None
     if request.method == 'POST':
-        startTime, deadlineTime = getAsstTimes.getAsstTimes(assessment_key)
-        sentTime = datetime.datetime.now()
-        if checkDate.checkDate(sentTime, startTime, deadlineTime):
-            question_type = showQuestion.showQuestion(assessment_key,question_n).isOpen
+        startTime, deadlineTime = getAsstTimes.getAsstTimes(assessment_key) #Get start and deadline times of the assessment
+        sentTime = datetime.datetime.now() #Get the time when request was made
+        if checkDate.checkDate(sentTime, startTime, deadlineTime): #If the request was made in appropiate time answer
+            question_type = showQuestion.showQuestion(assessment_key,question_n).isOpen #Get question type to set apropiate behavior
             if question_n == 6:#Is last question
-                asst = answerLastQuestion.answerLastQuestion(assessment_key,question_type,request,sentTime)
+                asst = answerLastQuestion.answerLastQuestion(assessment_key,question_type,request,sentTime)#Answer question and getAssessment data to confirm finished
                 response = make_response(jsonify({"Assessment finished":asst.asstToJson()}),200)
-            else:
-                answerQuestion.answerQuestion(assessment_key,question_n,question_type,request)
+            else: #Not last question
+                answerQuestion.answerQuestion(assessment_key,question_n,question_type,request) #Answer question 
                 response = make_response(jsonify({"Answered Recieved": "OK"}), 201)
         else:
-            response = make_response(jsonify({"Out of Time": "FAILED"}), 401)
+            response = make_response(jsonify({"Out of Time": "FAILED"}), 401) #Resquest was made out of time
     return response
 
 @app.route('/test/<string:assessment_key>/questions', methods = ['GET']) #List all the questions of assessment. Just for testing purposes

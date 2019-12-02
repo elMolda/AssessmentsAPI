@@ -8,8 +8,8 @@ def updateAssmntClosedQuestion(assessment_key,question_n,selectedAns):
         SET user_ans_closed = ? 
         WHERE question_n = ? 
         AND assessment_id = (SELECT assessment_id from assessments WHERE assessment_key = ?)
-    """, (int(selectedAns),int(question_n),assessment_key))
-    conn.commit()
+    """, (int(selectedAns),int(question_n),assessment_key)) #Update answer in db
+    conn.commit() #Commit the change
     cursor.execute("SELECT * FROM assmntXquestns")
     print(cursor.fetchall())
     conn.close()
