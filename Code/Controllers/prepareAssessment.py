@@ -13,7 +13,7 @@ def prepareAssessment(requestData):
     startTime = datetime.now() #Assemnt starts now
     deadlineTime = startTime + timedelta(hours=1) #Assemnt deadline is 1 hour
     #Create Assessment object
-    asst = Assessment(request.json['email'], startTime, deadlineTime)
+    asst = Assessment(request.json['email'], startTime, deadlineTime, ' ') #Empty end time
     #Store Assessment in db.
     asst_id = createAssessment.insertAsssessment(asst)#Get Assessment id to prepare questions
     #Assign questions to created Assemnt
