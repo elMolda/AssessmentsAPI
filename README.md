@@ -3,7 +3,7 @@ This API is for the C1 Backend challege.
 
 Set up and run the app:
   1. Clone the repo.
-  2. Create a virtual environment with `python3 -m venv AssessmentsAPI/venv`
+  2. Create a virtual environment with `python3 -m venv AssessmentsAPI/Code/venv`
   3. Activate virtual environment with `source AssessmentsAPI/Code/venv/bin/activate`
   4. Go to Code directory of the project with `cd AssessmentsAPI/Code`
   5. Install dependencies with `pip install -r requirements.txt`
